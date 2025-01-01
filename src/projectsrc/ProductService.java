@@ -79,4 +79,14 @@ public class ProductService {
         products.remove(product);
         return "Product deleted successfully.";
     }
+    
+    public List<Product> searchProductsByName(String name) {
+        List<Product> result = new ArrayList<>();
+        for (Product product : products) {
+            if (product.getName().toLowerCase().contains(name.toLowerCase())) {
+                result.add(product);
+            }
+        }
+       return result;
+    }
 }

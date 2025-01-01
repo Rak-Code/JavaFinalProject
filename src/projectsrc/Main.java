@@ -1,10 +1,13 @@
 package projectsrc;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         UserService userService = new UserService(); // For user management
         ProductService productService = new ProductService(); // For product management
+        CartService cartService = new CartService(); // For cart management
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -86,7 +89,7 @@ public class Main {
                                             // View Products
                                             System.out.println("\n--- Product List ---");
                                             productService.viewProducts();
-                                            
+
                                         } else if (productChoice == 3) {
                                             // Update Product
                                             System.out.print("Enter product ID to update: ");
@@ -128,7 +131,89 @@ public class Main {
                                 }
                             }
                         } else {
-                            System.out.println("You are logged in as a regular user.");
+                            // Regular user menu
+                            while (true) {
+                                System.out.println("\n--- User Menu ---");
+                                System.out.println("1. View Products");
+                                System.out.println("2. Manage Cart");
+                                System.out.println("3. Logout");
+                                System.out.println("4. Search Products");
+                                System.out.print("Choose an option: ");
+                                int userChoice = scanner.nextInt();
+                                scanner.nextLine(); // Consume newline
+
+                                if (userChoice == 1) {
+                                    System.out.println("\n--- Product List ---");
+                                    productService.viewProducts();
+                                } else if (userChoice == 2) {
+                                    // Cart Management
+                                    while (true) {
+                                        System.out.println("\n--- Cart Menu ---");
+                                        System.out.println("1. Add Product to Cart");
+                                        System.out.println("2. View Cart");
+                                        System.out.println("3. Remove Product from Cart");
+                                        System.out.println("4. Place Order");
+                                        System.out.println("5. Back to User Menu");
+                                        System.out.print("Choose an option: ");
+                                        int cartChoice = scanner.nextInt();
+
+                                        if (cartChoice == 1) {
+                                            System.out.print("Enter Product ID: ");
+                                            int productId = scanner.nextInt();
+                                            System.out.print("Enter Quantity: ");
+                                            int quantity = scanner.nextInt();
+
+                                            Product product = productService.findProductById(productId);
+                                            if (product == null) {
+                                                System.out.println("Product not found.");
+                                            } else {
+                                                System.out.println(cartService.addToCart(product, quantity));
+                                            }
+                                        } else if (cartChoice == 2) {
+                                            cartService.viewCart();
+                                        } else if (cartChoice == 3) {
+                                            System.out.print("Enter Product ID to remove: ");
+                                            int productId = scanner.nextInt();
+                                            System.out.println(cartService.removeFromCart(productId));
+                                        } else if (cartChoice == 4) {
+                                        	cartService.viewCart();
+                                            cartService.placeOrder();
+                                        } else if (cartChoice == 5) {
+                                            break; // Back to User Menu
+                                        } else {
+                                            System.out.println("Invalid choice. Try again.");
+                                        }
+                                    }
+                                } else if (userChoice == 3) {
+                                    // Logout
+                                    System.out.println("Logging out...");
+                                    break;
+                                }else if (userChoice == 4) {
+                                    System.out.print("Enter product name to search: ");
+                                    String productName = scanner.nextLine();
+                                    List<Product> searchResults = productService.searchProductsByName(productName);
+
+                                    if (searchResults.isEmpty()) {
+                                        System.out.println("No products found matching the name: " + productName);
+                                    } else {
+                                        System.out.println("\n--- Search Results ---");
+                                        System.out.printf("%-5s %-20s %-30s %-10s %-10s\n", "ID", "Name", "Description", "Price", "Stock");
+                                        System.out.println("--------------------------------------------------------------------------");
+
+                                        for (Product product : searchResults) {
+                                            System.out.printf("%-5d %-20s %-30s %-10.2f %-10d\n",
+                                                    product.getId(),
+                                                    product.getName(),
+                                                    product.getDescription(),
+                                                    product.getPrice(),
+                                                    product.getQuantity());
+                                        }
+                                    }
+
+                                }else {
+                                    System.out.println("Invalid choice. Try again.");
+                                }
+                            }
                         }
                     } else {
                         System.out.println("Invalid username or password. Please try again.");

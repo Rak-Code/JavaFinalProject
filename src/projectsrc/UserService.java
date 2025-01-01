@@ -11,6 +11,8 @@ public class UserService {
         
         User admin = new User("admin", "admin123", "admin@example.com");
         users.add(admin);
+        User user = new User("user1","user123","user1@gmail.com");
+        users.add(user);
     }
 
 
