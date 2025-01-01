@@ -5,7 +5,7 @@ public class User {
     private String email;
     
 
-    // Constructor
+    
     public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
@@ -13,7 +13,7 @@ public class User {
        
     }
 
-    // Getters and Setters
+  
     public String getUsername() {
         return username;
     }

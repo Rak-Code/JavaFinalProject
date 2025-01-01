@@ -3,7 +3,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        UserService userService = new UserService();
+        UserService userService = new UserService(); // For user management
+        ProductService productService = new ProductService(); // For product management
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -43,7 +44,8 @@ public class Main {
                             while (true) {
                                 System.out.println("\n--- Admin Menu ---");
                                 System.out.println("1. View All Users");
-                                System.out.println("2. Logout");
+                                System.out.println("2. Manage Products");
+                                System.out.println("3. Logout");
                                 System.out.print("Choose an option: ");
                                 int adminChoice = scanner.nextInt();
                                 scanner.nextLine(); // Consume newline
@@ -54,6 +56,71 @@ public class Main {
                                         System.out.println(registeredUser);
                                     }
                                 } else if (adminChoice == 2) {
+                                    // Product Management
+                                    while (true) {
+                                        System.out.println("\n--- Product Management ---");
+                                        System.out.println("1. Add Product");
+                                        System.out.println("2. View Products");
+                                        System.out.println("3. Update Product");
+                                        System.out.println("4. Delete Product");
+                                        System.out.println("5. Back to Admin Menu");
+                                        System.out.print("Choose an option: ");
+                                        int productChoice = scanner.nextInt();
+                                        scanner.nextLine(); // Consume newline
+
+                                        if (productChoice == 1) {
+                                            // Add Product
+                                            System.out.print("Enter product name: ");
+                                            String productName = scanner.nextLine();
+                                            System.out.print("Enter product description: ");
+                                            String productDescription = scanner.nextLine();
+                                            System.out.print("Enter product price: ");
+                                            double productPrice = scanner.nextDouble();
+                                            System.out.print("Enter product stock: ");
+                                            int productQuantity = scanner.nextInt();
+                                            scanner.nextLine(); // Consume newline
+
+                                            String addStatus = productService.addProduct(productName, productDescription, productPrice, productQuantity);
+                                            System.out.println(addStatus);
+                                        } else if (productChoice == 2) {
+                                            // View Products
+                                            System.out.println("\n--- Product List ---");
+                                            productService.viewProducts();
+                                            
+                                        } else if (productChoice == 3) {
+                                            // Update Product
+                                            System.out.print("Enter product ID to update: ");
+                                            int productId = scanner.nextInt();
+                                            scanner.nextLine(); // Consume newline
+                                            System.out.print("Enter new product name: ");
+                                            String newName = scanner.nextLine();
+                                            System.out.print("Enter new product description: ");
+                                            String newDescription = scanner.nextLine();
+                                            System.out.print("Enter new product price: ");
+                                            double newPrice = scanner.nextDouble();
+                                            System.out.print("Enter new product stock: ");
+                                            int newQuantity = scanner.nextInt();
+                                            scanner.nextLine(); // Consume newline
+
+                                            String updateStatus = productService.updateProduct(productId, newName, newDescription, newPrice, newQuantity);
+                                            System.out.println(updateStatus);
+                                        } else if (productChoice == 4) {
+                                            // Delete Product
+                                            System.out.print("Enter product ID to delete: ");
+                                            int deleteProductId = scanner.nextInt();
+                                            scanner.nextLine(); // Consume newline
+
+                                            String deleteStatus = productService.deleteProduct(deleteProductId);
+                                            System.out.println(deleteStatus);
+                                        } else if (productChoice == 5) {
+                                            // Back to Admin Menu
+                                            break;
+                                        } else {
+                                            System.out.println("Invalid choice. Please try again.");
+                                        }
+                                    }
+                                } else if (adminChoice == 3) {
+                                    // Logout
                                     System.out.println("Logging out...");
                                     break;
                                 } else {
@@ -61,7 +128,6 @@ public class Main {
                                 }
                             }
                         } else {
-                            // User-specific actions (to be implemented later)
                             System.out.println("You are logged in as a regular user.");
                         }
                     } else {
