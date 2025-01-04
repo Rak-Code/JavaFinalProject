@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS ecommerce_backend_system;
+DROP DATABASE  ecommerce_backend_system;
 
 CREATE DATABASE ecommerce_backend_system;
 USE ecommerce_backend_system;
@@ -52,8 +52,8 @@ CREATE TABLE order_items (
 
 INSERT INTO users (username, password, email) 
 VALUES 
-    ('admin', 'admin123', 'admin@google.com'),
-    ('user1', 'user123', 'user1@google.com');
+    ('admin', 'admin123', 'admin@gmail.com'),
+    ('user1', 'user123', 'user1@gmail.com');
 
  ALTER TABLE cart_items DROP FOREIGN KEY cart_items_ibfk_1;
  
