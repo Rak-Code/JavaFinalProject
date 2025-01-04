@@ -5,14 +5,19 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+    	
         UserService userService = new UserService(); 
         ProductService productService = new ProductService(); 
-        CartService cartService = new CartService(); 
-
+        CartService cartService = new CartService();
         Scanner scanner = new Scanner(System.in);
+        
+        
+        DatabaseConnection.checkConnection();
 
+       
         while (true) {
-            System.out.println("\n--- E-Commerce Backend System ---");
+            System.out.println("\n--- E-Commerce (CLothingBrand) Backend System ---")
+            ;
             System.out.println("1. Register");
             System.out.println("2. Login");
             System.out.println("3. Exit");

@@ -21,11 +21,5 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    @Override
-    public String toString() {
-        return String.format("Product: %s, Quantity: %d, Subtotal: $%.2f",
-                product.getName(),
-                quantity,
-                product.getPrice() * quantity);
-    }
+    
 }
