@@ -18,11 +18,6 @@ CREATE TABLE products (
     stock_quantity INT NOT NULL
 );
 
-CREATE TABLE carts (
-    cart_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
 
 CREATE TABLE cart_items (
     cart_item_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -55,9 +50,7 @@ VALUES
     ('admin', 'admin123', 'admin@gmail.com'),
     ('user1', 'user123', 'user1@gmail.com');
 
- ALTER TABLE cart_items DROP FOREIGN KEY cart_items_ibfk_1;
  
-DROP TABLE carts;
 
 
 ALTER TABLE cart_items
@@ -67,3 +60,18 @@ ADD COLUMN user_id INT NOT NULL;
 ALTER TABLE cart_items
 ADD CONSTRAINT fk_cart_items_user
 FOREIGN KEY (user_id) REFERENCES users(user_id);
+
+
+
+INSERT INTO products (name, description, price, stock_quantity) VALUES 
+('T-Shirt', 'Cotton t-shirt for casual wear', 700.00, 100),
+('Jeans', 'Denim jeans with a classic fit', 1500.00, 60),
+('Jacket', 'Warm winter jacket with a hood', 3000.00, 25),
+('Sneakers', 'Comfortable sneakers for daily use', 2000.00, 80),
+('Cap', 'Stylish cotton cap', 300.00, 150),
+('Socks', 'Pack of 3 pairs of socks', 250.00, 200),
+('Sweater', 'Knitted sweater for cold weather', 1800.00, 40),
+('Shorts', 'Cotton shorts for summer', 600.00, 120),
+('Gloves', 'Woolen gloves for winter', 400.00, 75),
+('Scarf', 'Silk scarf with a modern design', 500.00, 90);
+

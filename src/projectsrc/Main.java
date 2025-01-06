@@ -12,7 +12,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         
         
-        DatabaseConnection.checkConnection();
+//        DatabaseConnection.checkConnection();
 
        
         while (true) {
