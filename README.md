@@ -1,3 +1,4 @@
+
 # E-Commerce Backend System Documentation
 
 ## Project Overview
@@ -109,6 +110,9 @@ The E-Commerce Backend System is a console-based application designed to simulat
   - Description
   - Price
   - Stock quantity
+![mermaid](https://github.com/user-attachments/assets/8b87d4f1-c179-4f4d-b9ac-94cc2ae35306)
+
+
 ![NoteGPT-Class Diagram-1735763779201](https://github.com/user-attachments/assets/01724d7f-fe01-4766-a80e-399c6cd8bfa7)
 ### Relationships
 1. **User and Cart**:
