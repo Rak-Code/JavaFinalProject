@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-    	
+        
         UserService userService = new UserService(); 
         ProductService productService = new ProductService(); 
         CartService cartService = new CartService();
@@ -16,8 +16,7 @@ public class Main {
 
        
         while (true) {
-            System.out.println("\n--- E-Commerce (CLothingBrand) Backend System ---")
-            ;
+            System.out.println("\n--- E-Commerce (ClothingBrand) Backend System ---");
             System.out.println("1. Register");
             System.out.println("2. Login");
             System.out.println("3. Exit");
@@ -68,9 +67,9 @@ public class Main {
 
                                     for (User registeredUser : userService.getAllUsers()) {
                                         System.out.printf("%-15s %-20s %-30s\n",
-                                        		registeredUser.getUsername(),
-                                        		registeredUser.getPassword(),
-                                        		registeredUser.getEmail());
+                                                registeredUser.getUsername(),
+                                                registeredUser.getPassword(),
+                                                registeredUser.getEmail());
                                     }
                                 } else if (adminChoice == 2) {
                                     
@@ -152,6 +151,7 @@ public class Main {
                                 System.out.println("2. Manage Cart");
                                 System.out.println("3. Logout");
                                 System.out.println("4. Search Products");
+                                System.out.println("5. Filter Products");
                                 System.out.print("Choose an option: ");
                                 int userChoice = scanner.nextInt();
                                 scanner.nextLine(); 
@@ -190,7 +190,7 @@ public class Main {
                                             int productId = scanner.nextInt();
                                             System.out.println(cartService.removeFromCart(productId));
                                         } else if (cartChoice == 4) {
-                                        	cartService.viewCart();
+                                            cartService.viewCart();
                                             cartService.placeOrder();
                                         } else if (cartChoice == 5) {
                                             break; 
@@ -199,10 +199,10 @@ public class Main {
                                         }
                                     }
                                 } else if (userChoice == 3) {
-                                    
+                                    // Logout
                                     System.out.println("Logging out...");
                                     break;
-                                }else if (userChoice == 4) {
+                                } else if (userChoice == 4) {
                                     System.out.print("Enter product name to search: ");
                                     String productName = scanner.nextLine();
                                     List<Product> searchResults = productService.searchProductsByName(productName);
@@ -223,8 +223,28 @@ public class Main {
                                                     product.getQuantity());
                                         }
                                     }
+                                } else if (userChoice == 5) {
+                                    System.out.print("Enter minimum price (or press Enter to skip): ");
+                                    String minPriceInput = scanner.nextLine();
+                                    Double minPrice = minPriceInput.isEmpty() ? null : Double.parseDouble(minPriceInput);
 
-                                }else {
+                                    System.out.print("Enter maximum price (or press Enter to skip): ");
+                                    String maxPriceInput = scanner.nextLine();
+                                    Double maxPrice = maxPriceInput.isEmpty() ? null : Double.parseDouble(maxPriceInput);
+
+                                    System.out.print("Filter in-stock products only? (yes/no): ");
+                                    String inStockInput = scanner.nextLine();
+                                    boolean inStockOnly = inStockInput.equalsIgnoreCase("yes");
+
+                                    List<Product> filteredProducts = productService.filterProducts(minPrice, maxPrice, inStockOnly);
+
+                                    if (filteredProducts.isEmpty()) {
+                                        System.out.println("No products match the filter criteria.");
+                                    } else {
+                                        System.out.println("\n--- Filtered Products ---");
+                                        productService.displayFilteredProducts(filteredProducts);
+                                    }
+                                } else {
                                     System.out.println("Invalid choice. Try again.");
                                 }
                             }

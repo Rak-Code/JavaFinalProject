@@ -12,56 +12,30 @@ public class ProductService {
 
     // Constructor
     public ProductService() {
-    	
-    	
-               nextProductId = 1; 
+        nextProductId = 1; 
         products.add(new Product(nextProductId++, "T-Shirt", "Comfortable cotton t-shirt", 500, 100));
         products.add(new Product(nextProductId++, "Jeans", "Classic blue denim jeans", 1200, 50));
         products.add(new Product(nextProductId++, "Jacket", "Warm winter jacket", 2000, 30));
 //        
 //        try {
-//			
+//        
 //        	connection = DatabaseConnection.getConnection();
 //        } catch (SQLException e) {
-//			e.getMessage();
-//			throw new RuntimeException("Failed to connect to the database." + e.getMessage());
-//		}
+//        	e.getMessage();
+//        	throw new RuntimeException("Failed to connect to the database." + e.getMessage());
+//        }
 //    }
 
     }
+
     // Add a new product
     public String addProduct(String name, String description, double price, int quantity) {
-    	Product product = new Product(nextProductId++, name, description, price, quantity);
+        Product product = new Product(nextProductId++, name, description, price, quantity);
         products.add(product);
         return "Product added successfully with ID: " + product.getId();
-  	
-    	
-//       String insertQuery = "INSERT INTO products (name, description, price, stock_quantity) VALUES (?, ?, ?, ?)";
-//
-//       try (PreparedStatement stmt = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
-//            stmt.setString(1, name);
-//            stmt.setString(2, description);
-//            stmt.setDouble(3, price);
-//            stmt.setInt(4, quantity);
-//
-//            stmt.executeUpdate();
-//
-//           // Retrieve the generated product ID
-//            ResultSet rs = stmt.getGeneratedKeys();
-//            if (rs.next()) {
-//                int generatedId = rs.getInt(1);
-//                return "Product added successfully with ID: " + generatedId;
-//            }
-//        } catch (SQLException e) {
-//            return "Error occurred while adding product: " + e.getMessage();
-//       }
-//       return "Failed to add product.";
     }
 
-
-    
-
- // View all products
+    // View all products
     public void viewProducts() {
         if (products.isEmpty()) {
             System.out.println("No products available.");
@@ -80,36 +54,7 @@ public class ProductService {
                     product.getPrice(),
                     product.getQuantity());
         }
-        
-        
-        
-        
-//        String query = "SELECT * FROM products";
-//
-//        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
-//            if (!rs.isBeforeFirst()) { // Check if the ResultSet is empty
-//                System.out.println("No products available.");
-//                return;
-//            }
-//
-//            System.out.println("\n--- Product List ---");
-//            System.out.printf("%-5s %-20s %-30s %-10s %-10s\n", "ID", "Name", "Description", "Price", "Stock");
-//            System.out.println("--------------------------------------------------------------------------");
-//
-//            while (rs.next()) {
-//                int id = rs.getInt("product_id");
-//                String name = rs.getString("name");
-//                String description = rs.getString("description");
-//                double price = rs.getDouble("price");
-//                int stockQuantity = rs.getInt("stock_quantity");
-//
-//                System.out.printf("%-5d %-20s %-30s %-10.2f %-10d\n", id, name, description, price, stockQuantity);
-//            }
-//        } catch (SQLException e) {
-//            System.out.println("Error occurred while retrieving products: " + e.getMessage());
-//        }
     }
-
 
     // Find a product by ID
     public Product findProductById(int productId) {
@@ -145,7 +90,8 @@ public class ProductService {
         products.remove(product);
         return "Product deleted successfully.";
     }
-    
+
+    // Search products by name
     public List<Product> searchProductsByName(String name) {
         List<Product> result = new ArrayList<>();
         for (Product product : products) {
@@ -154,5 +100,42 @@ public class ProductService {
             }
         }
        return result;
+    }
+
+    // Filter products by price range or stock availability
+    public List<Product> filterProducts(Double minPrice, Double maxPrice, Boolean inStockOnly) {
+        List<Product> filteredProducts = new ArrayList<>();
+
+        for (Product product : products) {
+            boolean withinPriceRange = (minPrice == null || product.getPrice() >= minPrice) &&
+                                       (maxPrice == null || product.getPrice() <= maxPrice);
+            boolean stockCriteria = !inStockOnly || product.getQuantity() > 0;
+
+            if (withinPriceRange && stockCriteria) {
+                filteredProducts.add(product);
+            }
+        }
+
+        return filteredProducts;
+    }
+
+    public void displayFilteredProducts(List<Product> filteredProducts) {
+        if (filteredProducts.isEmpty()) {
+            System.out.println("No products match the filter criteria.");
+            return;
+        }
+
+        System.out.println("\n--- Filtered Product List ---");
+        System.out.printf("%-5s %-20s %-30s %-10s %-10s\n", "ID", "Name", "Description", "Price", "Stock");
+        System.out.println("--------------------------------------------------------------------------");
+
+        for (Product product : filteredProducts) {
+            System.out.printf("%-5d %-20s %-30s %-10.2f %-10d\n",
+                    product.getId(),
+                    product.getName(),
+                    product.getDescription(),
+                    product.getPrice(),
+                    product.getQuantity());
+        }
     }
 }
